@@ -4,98 +4,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Balsam Developers</title>
+    <title>BalsamDevelopers | Modern</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* Modern Base Styling */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f9ff;
-            color: #1a202c;
+            background-color: #f8f9fa; /* Soft off-white background */
+            color: #212529; /* Darker text for contrast */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            padding: 1rem;
+            padding: 1.5rem;
         }
+
+        /* Container to center and limit width */
         .container {
             width: 100%;
-            max-width: 900px;
+            max-width: 960px; /* Slightly wider container */
             text-align: center;
         }
+
+        /* Header Styling */
+        header h1 {
+            font-weight: 800;
+            color: #4a5568; /* Muted primary color */
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-top: 0;
+        }
+
+        /* Grid layout for the game buttons (2 columns) */
         .game-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-top: 2.5rem;
+            gap: 1.25rem; /* Slightly reduced gap */
+            margin-top: 3rem;
         }
+
+        /* Styling for all game buttons - Neumorphic-Lite Shadows */
         .game-button {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 2.5rem 1.5rem;
-            border-radius: 1.5rem;
-            font-weight: 600;
-            font-size: 1.25rem;
+            border-radius: 1.25rem;
+            font-weight: 700; /* Bolder font weight */
+            font-size: 1.2rem;
             color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+            
+            /* Modern, soft shadow */
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.08), -5px -5px 15px rgba(255, 255, 255, 0.9);
+            
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* Hover effect */
         .game-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            transform: translateY(-3px); /* Less dramatic lift */
+            /* Slightly more pronounced shadow on hover */
+            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.1), -8px -8px 20px rgba(255, 255, 255, 0.8);
         }
-        .button-1 { background-color: #FF6B6B; }   /* Soft Coral Red */
-        .button-2 { background-color: #FFD93D; }   /* Warm Amber Yellow */
-        .button-3 { background-color: #6BCB77; }   /* Fresh Green */
-        .button-4 { background-color: #4D96FF; }   /* Vibrant Sky Blue */
-        .button-5 { background-color: #9D4EDD; }   /* Rich Violet */
-        .button-6 { background-color: #FCA5F1; }   /* Pastel Pink Gradient Base */
-        .button-7 { background-color: #00C9A7; }   /* Aqua Teal */
-        .button-8 { background-color: #FFB347; }   /* Peach Orange */
-        .button-9 { background-color: #38BDF8; }   /* Light Cyan Blue */
-        .button-10 { background-color: #B6E388; }  /* Minty Green */
+
+        /* Modern, Muted Color Palette */
+        .button-1 { background-color: #6b70c5; } /* Muted Indigo */
+        .button-2 { background-color: #ffa552; } /* Soft Orange */
+        .button-3 { background-color: #4CAF50; } /* Classic Green */
+        .button-4 { background-color: #5d9cec; } /* Bright Blue */
+        .button-5 { background-color: #ff6f69; } /* Coral Red */
+        .button-6 { background-color: #a06cd5; } /* Soft Violet */
+        .button-7 { background-color: #4AD9E4; } /* Cyan/Aqua */
+        .button-8 { background-color: #6b70c5; } 
+        .button-9 { background-color: #ffc947; } /* Goldenrod */
+        .button-10 { background-color: #90d3fe; } /* Light Sky Blue */
+        .button-11 { background-color: #ff6f69; } 
+        .button-12 { background-color: #4CAF50; }
         
-        .footer {
-            margin-top: 3rem;
+        /* Repeating the modern palette for consistency */
+        .button-13 { background-color: #ffa552; } 
+        .button-14 { background-color: #6b70c5; }
+        .button-15 { background-color: #ff6f69; }
+        .button-16 { background-color: #ffc947; }
+        .button-17 { background-color: #4AD9E4; }
+        .button-18 { background-color: #a06cd5; } 
+        .button-19 { background-color: #5d9cec; }
+        .button-20 { background-color: #4CAF50; }
+        .button-21 { background-color: #ffa552; }
+        .button-22 { background-color: #6b70c5; }
+        .button-23 { background-color: #ff6f69; }
+        .button-24 { background-color: #4AD9E4; }
+        .button-25 { background-color: #ffc947; } 
+        .button-26 { background-color: #a06cd5; }
+        .button-27 { background-color: #6b70c5; } 
+        .button-28 { background-color: #4CAF50; }
+        .button-29 { background-color: #ffa552; }
+        .button-30 { background-color: #ff6f69; }
+        .button-31 { background-color: #5d9cec; } 
+        .button-32 { background-color: #4AD9E4; }
+        .button-33 { background-color: #ffc947; }
+        .button-34 { background-color: #a06cd5; }
+        .button-35 { background-color: #4CAF50; }
+
+        /* Footer styling */        
+        .footer {            
+            margin-top: 4rem;
             padding-top: 1.5rem;
-            border-top: 1px solid #cbd5e1;
+            border-top: 1px solid #dee2e6; /* Lighter separator */
             width: 100%;
             text-align: center;
-            color: #4a5568;
-            font-size: 0.875rem;
-        }
+            color: #6c757d;
+            font-size: 0.9rem;
+        }    
     </style>
 </head>
 <body>
     <div class="container">
-        <header class="mb-8">
-            <h1>Balsam Developers</h1>
+        <header>
+            <h1>BalsamDevelopers</h1>
             <p>A World of Learning Adventures, Built by Students</p>
         </header>
-        
+
         <main>
             <div class="game-grid">
-                <a href="https://balsamdevelopers.github.io/gkbuddy.html" target="_blank" class="game-button button-1">GK Buddy</a>
-                <a href="https://balsamdevelopers.github.io/mathrush.html" target="_blank" class="game-button button-2">Math Rush</a>
-                <a href="https://balsamdevelopers.github.io/wordscramble.html" target="_blank" class="game-button button-3">Word Scramble I</a>
-                <a href="https://balsamdevelopers.github.io/wordscramble2.html" target="_blank" class="game-button button-4">Word Scramble II</a>
-                <a href="https://balsamdevelopers.github.io/kural.html" target="_blank" class="game-button button-5">Kural Oviyam</a>
-                <a href="https://balsamdevelopers.github.io/flag.html" target="_blank" class="game-button button-6">Flag-tastic</a>
-                <a href="https://balsamdevelopers.github.io/capitals.html" target="_blank" class="game-button button-7">Capital Quest</a>
-                <a href="hhttps://grammarbuddy.github.io/" target="_blank" class="game-button button-8">Grammar Buddy</a>
-                <a href="https://grammarbuddy.github.io/spellingbee/" target="_blank" class="game-button button-9">Spelling Bee</a>
+                <a href="https://balsamdevelopers1.github.io/gkbuddy.html" target="_blank" class="game-button button-1">GK Buddy</a>
+                <a href="https://balsamdevelopers1.github.io/sq/mathrush.html" target="_blank" class="game-button button-2">Math Rush</a>
+                <a href="https://balsamdevelopers1.github.io/sq/wordscramble.html" target="_blank" class="game-button button-3">Word Scramble I</a>
+                <a href="https://balsamdevelopers1.github.io/sq/wordscramble2.html" target="_blank" class="game-button button-4">Word Scramble II</a>
+                <a href="https://balsamdevelopers1.github.io/sq/kural.html" target="_blank" class="game-button button-5">Kural Oviyam</a>
+                <a href="https://balsamdevelopers1.github.io/sq/flag.html" target="_blank" class="game-button button-6">Flag-tastic</a>
+                <a href="https://balsamdevelopers1.github.io/sq/memory.html" target="_blank" class="game-button button-7">Memory Mania</a>
+                <a href="https://balsamdevelopers1.github.io/sq/capitals.html" class="game-button button-8">Capital Quest</a>
+                <a href="https://grammarbuddy.github.io/index1.html" target="_blank" class="game-button button-9">Grammar Buddy</a>
                 <a href="https://grammarbuddy.github.io/readright/" target="_blank" class="game-button button-10">Read Right</a>
+                <a href="https://balsamdevelopers1.github.io/sq/write.html" target="_blank" class="game-button button-11">Write Right</a>
+                <a href="https://balsamdevelopers1.github.io/sq/tonguetwister.html" target="_blank" class="game-button button-12">Tongue Tangler</a>
+                <a href="https://balsamdevelopers1.github.io/sq/riddles.html" target="_blank" class="game-button button-13">Riddle trainer</a>
+                <a href="https://balsamdevelopers1.github.io/sq/skylore.html" target="_blank" class="game-button button-14">SkyLore</a>
+                <a href="https://balsamdevelopers1.github.io/sq/bingo.html" target="_blank" class="game-button button-15">Bingo Blitz</a>
+                <a href="https://balsamdevelopers1.github.io/sq/fire.html" target="_blank" class="game-button button-16">FearLess Fire </a>
+                <a href="https://balsamdevelopers1.github.io/sq/escape.html" target="_blank" class="game-button button-17">Elemental Escape </a>
+                <a href="https://balsamdevelopers1.github.io/sq/dino.html" target="_blank" class="game-button button-18">Ultimate Dino Quiz!</a>
+                <a href="https://balsamdevelopers1.github.io/sq/attic.html" target="_blank" class="game-button button-19">The Attic Lockup</a>
+                <a href="https://balsamdevelopers1.github.io/sq/social.html" target="_blank" class="game-button button-20">Mission Knowledge</a>
+                <a href="https://balsamdevelopers1.github.io/sq/ascent.html" target="_blank" class="game-button button-21">Word Ascent!!!</a>
+                <a href="https://balsamdevelopers1.github.io/sq/chronos.html" target="_blank" class="game-button button-22">Chronos Mission</a>
+                <a href="https://balsamdevelopers1.github.io/sq/timeline.html" target="_blank" class="game-button button-23">Timeline Architect</a>
+                <a href="https://balsamdevelopers1.github.io/sq/maze.html" target="_blank" class="game-button button-24">Multi-Level Math Maze</a>
+                <a href="https://balsamdevelopers1.github.io/sq/mathmazev2.html" target="_blank" class="game-button button-25">CalcQuest </a>
+                <a href="https://balsamdevelopers1.github.io/sq/wordsearch.html" target="_blank" class="game-button button-26">Word Search: IT Fundamentals </a>
+                <a href="https://balsamdevelopers1.github.io/sq/the.html" target="_blank" class="game-button button-27">The Spectrum Solver</a>
+                <a href="https://balsamdevelopers1.github.io/sq/stick1.html" target="_blank" class="game-button button-28">Stickman Duels</a>
+                <a href="https://balsamdevelopers1.github.io/sq/pong.html" target="_blank" class="game-button button-29">Neon Pong Rebound</a>
+                <a href="https://balsamdevelopers1.github.io/sq/food.html" target="_blank" class="game-button button-30">Food Chain Survivor</a>
+                <a href="https://balsamdevelopers1.github.io/sq/solver.html" target="_blank" class="game-button button-31">Arithmetic Blitz</a>
+                <a href="https://balsamdevelopers1.github.io/sq/obby.html" target="_blank" class="game-button button-32">Stickman Obby</a>
             </div>
         </main>
-        
+
         <footer class="footer">
-            <p>© Designed by G7A Dream Chasers!</p>
+            <p>� Designed and Developed by Students of G7A</p>
         </footer>
     </div>
 </body>
