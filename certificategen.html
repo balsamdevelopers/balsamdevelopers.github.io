@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Load modern fonts: Playfair Display for headings, Montserrat for body */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+        /* Formal cursive font for the signature - GREAT VIBES */
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+        body {
+            font-family: 'Montserrat', sans-serif; 
+            background-color: #f0f4f8;
+        }
+        #appContainer {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+        }
+        #canvasContainer {
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            background-color: white;
+            padding: 20px;
+            overflow: hidden;
+        }
+        #certificateCanvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            border-radius: 8px;
+        }
+        input[type="text"], input[type="date"], select, textarea {
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .input-label {
+            font-weight: 700;
+            margin-bottom: 4px; 
+            color: #2d3748;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div id="appContainer">
+        <header class="text-center p-6 bg-white shadow-lg rounded-xl">
+            <h1 class="text-4xl font-bold text-gray-800 font-[Playfair_Display]">Classroom Award Generator</h1>
+            <p class="text-gray-600 mt-2">Create a professional Certificate of Achievement for your students.</p>
+        </header>
+        <div class="flex flex-col lg:flex-row gap-6">
+            <div id="controls" class="lg:w-1/3 bg-white p-6 rounded-xl shadow-lg h-fit">
+                <h2 class="text-2xl font-semibold mb-4 text-indigo-700">Certificate Details</h2>
+                <div class="mb-4">
+                    <label for="certificateType" class="input-label">Select Award Type</label>
+                    <select id="certificateType" onchange="handleCertificateChange()">
+                        
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="schoolName" class="input-label">School Name</label>
+                    <input type="text" id="schoolName" value="Awesome Heights Elementary" placeholder="Enter school name" oninput="updateCertificate()">
+                </div>
+                <div class="mb-4">
+                    <label for="studentName" class="input-label">Student Name</label>
+                    <input type="text" id="studentName" value="Alice Johnson" placeholder="Enter student name" oninput="updateCertificate()">
+                </div>
+                <div class="mb-4">
+                    <label for="issuerName" class="input-label">Teacher / Issuer Name</label>
+                    <input type="text" id="issuerName" value="Ms. Clara Stevens, Class Teacher" placeholder="e.g., Principal, Instructor Name" oninput="updateCertificate()">
+                </div>
+                <div id="customAchievementContainer" class="mb-4 hidden">
+                    <label for="customAchievement" class="input-label">Custom Achievement Title</label>
+                    <input type="text" id="customAchievement" value="" placeholder="e.g., Best Mathlete Award" oninput="updateCertificate()">
+                </div>
+                <div id="customDescriptionContainer" class="mb-4 hidden">
+                    <label for="customDescription" class="input-label">Description (Reason for Award)</label>
+                    <textarea id="customDescription" rows="3" placeholder="e.g., for showing enthusiasm and mastery in all algebraic concepts." oninput="updateCertificate()"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="issueDate" class="input-label">Date Issued</label>
+                    <input type="date" id="issueDate" value="2025-11-04" onchange="updateCertificate()">
+                </div>
+                <button id="downloadButton"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg mt-4"
+                    onclick="downloadCertificate()">
+                    Download Certificate (PNG)
+                </button>
+            </div>
+            <div id="canvasContainer" class="lg:w-2/3 flex justify-center items-center">
+                <canvas id="certificateCanvas" width="1200" height="900" class="rounded-lg border-4 border-gray-200"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        var canvas = document.getElementById('certificateCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width;
+        var H = canvas.height;
+        const certificateTemplates = {
+            'custom': { title: 'Custom Certificate', description: 'Enter your own title and description.' },
+            'focus': { title: 'The Focus Master', description: 'award for consistently demonstrating excellent concentration and dedicated focus during class activities and lessons.' },
+            'organizer': { title: 'Super Organizer Star', description: 'award for always having their materials perfectly organized and keeping their workspace tidy and efficient.' },
+            'attitude': { title: 'Awesome Attitude Ace', description: 'award for bringing an infectious and positive attitude to the classroom every single day.' },
+            'reading': { title: 'Reading Rockstar', description: 'award for powering through books and demonstrating a tremendous passion for reading and literacy.' },
+            'math': { title: 'Math Magician', description: 'award for conquering complex equations and showing outstanding speed and accuracy in numeracy skills.' },
+            'handwriting': { title: 'Neat Handwriting Hero', description: 'award for meticulous penmanship and always turning in beautifully neat and legible assignments.' },
+            'kindness': { title: 'Kindness Champion', description: 'award for spreading warmth, empathy, and being the first to offer help and support to their peers.' },
+            'teamwork': { title: 'Terrific Team Player', description: 'award for collaborating beautifully, listening actively, and contributing positively to all group projects.' },
+            'creative': { title: 'Creative Genius', description: 'award for thinking outside the box, generating original ideas, and showcasing impressive artistic flair.' },
+            'reporter': { title: 'Remarkable Reporter', description: 'award for asking insightful questions and showing an extraordinary curiosity about the world around them.' },
+            'responsibility': { title: 'The Responsibility Role Model', description: 'award for consistently demonstrating maturity, reliability, and ownership over their work and actions.' },
+            'speller': { title: 'Speedy Speller', description: 'award for mastering tricky vocabulary and exhibiting exceptional skill in spelling and word usage.' },
+            'digital': { title: 'Digital Dynamo', description: 'award for becoming proficient in new technologies and using digital tools responsibly and creatively.' },
+            'author': { title: 'Aspiring Author', description: 'award for weaving wonderful tales and showing great talent in creative writing and storytelling.' },
+            'science': { title: 'Science Investigator', description: 'award for brilliant experimentation and showing a deep, hands-on interest in scientific processes and inquiry.' },
+            'finisher': { title: 'Fantastic Finisher', description: 'award for seeing every task through to completion with dedication and high quality, even when challenging.' },
+            'growth': { title: 'Growth Mindset Guru', description: 'award for embracing challenges, learning from mistakes, and showing amazing persistence and resilience.' },
+            'healthy': { title: 'Healthy Habits Helper', description: 'award for promoting wellness, practicing good hygiene, and being a role model for a healthy lifestyle.' },
+            'silent': { title: 'Silent Hero', description: 'award for making a big difference with quiet acts of service, effort, and respectful behavior.' },
+            'listener': { title: 'Great Listener Legend', description: 'award for paying careful attention, remembering instructions, and showing great respect to speakers.' },
+        };
+        function initializeDropdown() {
+            const select = document.getElementById('certificateType');
+            select.innerHTML = ''; 
+            let optionCustom = document.createElement('option');
+            optionCustom.value = 'custom';
+            optionCustom.textContent = certificateTemplates['custom'].title;
+            select.appendChild(optionCustom);
+            Object.keys(certificateTemplates).forEach(key => {
+                if (key !== 'custom') {
+                    let option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = certificateTemplates[key].title;
+                    select.appendChild(option);
+                }
+            });
+            select.value = 'focus';
+        }
+        function handleCertificateChange() {
+            const selectedType = document.getElementById('certificateType').value;
+            const isCustom = selectedType === 'custom';
+            document.getElementById('customAchievementContainer').classList.toggle('hidden', !isCustom);
+            document.getElementById('customDescriptionContainer').classList.toggle('hidden', !isCustom);
+            if (isCustom) {
+                document.getElementById('customAchievement').value = certificateTemplates['custom'].title;
+                document.getElementById('customDescription').value = certificateTemplates['custom'].description;
+            } else {
+                document.getElementById('customAchievement').value = '';
+                document.getElementById('customDescription').value = '';
+            }
+            updateCertificate();
+        }
+        
+        function getSignatureName(fullName) {
+            if (!fullName) return "";
+            // --- FIX APPLIED HERE: Reordered titles for better matching of "Mrs" over "Mr" ---
+            // Remove common prefixes/titles and anything after a comma
+            const cleanedName = fullName.replace(
+                /(\s*(mrs|ms|mr|dr|prof|ph\.?d|esq)\.?\s*)/gi, 
+                ''
+            ).trim();
+            // ----------------------------------------------------------------------------
+
+            const parts = cleanedName.split(',');
+            // Take only the part before the first comma (the name)
+            const nameOnly = parts[0].trim();
+            // Take the first and last word as the signature (for a more natural cursive look)
+            const nameParts = nameOnly.split(/\s+/);
+            if (nameParts.length > 1) {
+                // Ensure the name is capitalized correctly (optional, but good practice)
+                const firstName = nameParts[0].charAt(0).toUpperCase() + nameParts[0].slice(1).toLowerCase();
+                const lastName = nameParts[nameParts.length - 1].charAt(0).toUpperCase() + nameParts[nameParts.length - 1].slice(1).toLowerCase();
+                return firstName + ' ' + lastName;
+            }
+            // Ensure single names are capitalized correctly
+            return nameOnly.charAt(0).toUpperCase() + nameOnly.slice(1).toLowerCase();
+        }
+
+        function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius, rotation) {
+            var rot = Math.PI / 2 * 3 + rotation;
+            var x = cx;
+            var y = cy;
+            var step = Math.PI / spikes;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy - outerRadius);
+            for (i = 0; i < spikes; i++) {
+                x = cx + Math.cos(rot) * outerRadius;
+                y = cy + Math.sin(rot) * outerRadius;
+                ctx.lineTo(x, y);
+                rot += step;
+                x = cx + Math.cos(rot) * innerRadius;
+                y = cy + Math.sin(rot) * innerRadius;
+                ctx.lineTo(x, y);
+                rot += step;
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        function drawSchoolSeal() { 
+            const centerX = W * 0.5;
+            const centerY = H * 0.78; 
+
+            const scaleFactor = 0.7; // Seal size is 70% of original reference
+            const outerRadius = W * 0.1 * scaleFactor; 
+            
+            const darkBlueFieldRadius = outerRadius * 0.85; 
+            const textOrbitRadius = darkBlueFieldRadius * 0.75; 
+            const centralIconRadius = darkBlueFieldRadius * 0.7; 
+
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            
+            // 1. Sawtooth Edge (Triangles) - Dark Blue Outer Ring
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+            ctx.shadowBlur = 8 * scaleFactor; 
+            ctx.shadowOffsetX = 3 * scaleFactor;
+            ctx.shadowOffsetY = 3 * scaleFactor;
+            
+            const numTeeth = 60;
+            const toothOuterRadius = outerRadius;
+            const toothInnerRadius = outerRadius * 0.95; 
+            ctx.beginPath();
+            for (let i = 0; i < numTeeth; i++) {
+                const angle = (i / numTeeth) * (2 * Math.PI);
+                const nextAngle = ((i + 0.5) / numTeeth) * (2 * Math.PI);
+                
+                ctx.lineTo(toothOuterRadius * Math.cos(angle), toothOuterRadius * Math.sin(angle));
+                ctx.lineTo(toothInnerRadius * Math.cos(nextAngle), toothInnerRadius * Math.sin(nextAngle));
+            }
+            ctx.closePath();
+            ctx.fillStyle = '#2c5282'; 
+            ctx.fill();
+            
+            // Clear shadow for inner elements
+            ctx.shadowColor = 'transparent'; 
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+
+            // 2. Main Inner Field (White background for dark blue text)
+            ctx.beginPath();
+            ctx.arc(0, 0, darkBlueFieldRadius, 0, 2 * Math.PI);
+            ctx.fillStyle = 'white'; 
+            ctx.fill();
+
+            // 3. Central Dark Blue Border for Text Area (Inner ring)
+            ctx.beginPath();
+            ctx.arc(0, 0, darkBlueFieldRadius * 0.95, 0, 2 * Math.PI);
+            ctx.strokeStyle = '#2c5282';
+            ctx.lineWidth = 3 * scaleFactor; 
+            ctx.stroke();
+
+            // 4. Innermost White Circle (for icons)
+            ctx.beginPath();
+            ctx.arc(0, 0, centralIconRadius, 0, 2 * Math.PI);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+            
+            // 5. Central Star - Drawn directly using drawStar function with shadow
+            ctx.save();
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+            ctx.shadowBlur = 10 * scaleFactor; 
+            ctx.shadowOffsetX = 4 * scaleFactor;
+            ctx.shadowOffsetY = 4 * scaleFactor;
+            ctx.fillStyle = '#FFD700'; // Gold color for the star
+            drawStar(ctx, 0, 0, 5, centralIconRadius * 0.9, centralIconRadius * 0.4, 0); 
+            ctx.restore(); // Restore context to remove star-specific shadow and fillStyle
+
+            // 6. Circular Text: "ACHIEVEMENT"
+            const text = "ACHIEVEMENT";
+            const fontSize = W * 0.018 * scaleFactor; 
+            ctx.font = `bold ${fontSize}px 'Montserrat', sans-serif`;
+            ctx.fillStyle = '#2c5282';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'alphabetic'; 
+            
+            const textRadius = textOrbitRadius; 
+            
+            const totalArcAngle = Math.PI * 1.5; 
+            const startAngleForText = -Math.PI / 2 - totalArcAngle / 2; 
+            const angleStepPerChar = totalArcAngle / (text.length + 1); 
+            
+            for (let i = 0; i < text.length; i++) {
+                ctx.save();
+                const charAngle = startAngleForText + (i + 1) * angleStepPerChar;
+                ctx.rotate(charAngle + Math.PI / 2); 
+                ctx.fillText(text[i], 0, -textRadius);
+                ctx.restore();
+            }
+            
+            ctx.restore();
+        }
+
+        function drawCertificate(data) {
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, W, H);
+            // Modern Border
+            var borderSize = W * 0.02;
+            var gradient = ctx.createLinearGradient(0, 0, W, H);
+            gradient.addColorStop(0, '#a7c1ed');
+            gradient.addColorStop(0.5, '#5c85d6');
+            gradient.addColorStop(1, '#a7c1ed');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, W, H);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(borderSize, borderSize, W - 2 * borderSize, H - 2 * borderSize);
+            // Inner Decorative Lines
+            var innerMargin = borderSize + 10;
+            ctx.strokeStyle = '#cccccc';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(innerMargin, innerMargin, W - 2 * innerMargin, H - 2 * innerMargin);
+            ctx.textAlign = 'center';
+            var yOffset = H * 0.12;
+            // School Name
+            ctx.font = `bold ${W * 0.025}px 'Montserrat', sans-serif`;
+            ctx.fillStyle = '#4a5568';
+            ctx.fillText(data.schoolName.toUpperCase(), W / 2, yOffset);
+            yOffset += H * 0.08;
+            // Title: RECOGNITION OF EXCELLENCE
+            ctx.font = `bold ${W * 0.055}px 'Playfair Display', serif`;
+            ctx.fillStyle = '#2c5282';
+            ctx.fillText("RECOGNITION OF EXCELLENCE", W / 2, yOffset);
+            
+            // Increased spacing between title and student name
+            yOffset += H * 0.15; 
+            
+            // Student Name (Highlight)
+            ctx.font = `bold ${W * 0.07}px 'Playfair Display', serif`;
+            ctx.fillStyle = '#000000';
+            var textWidth = ctx.measureText(data.studentName).width;
+            ctx.fillText(data.studentName, W / 2, yOffset);
+            
+            // Subtle line under the name
+            ctx.strokeStyle = '#a0aec0';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(W / 2 - textWidth / 2, yOffset + 5);
+            ctx.lineTo(W / 2 + textWidth / 2, yOffset + 5);
+            ctx.stroke();
+            yOffset += H * 0.10; 
+            // Presentation Line
+            ctx.font = `${W * 0.025}px 'Montserrat', sans-serif`;
+            ctx.fillStyle = '#333333';
+            ctx.fillText(`is proudly presented with the`, W / 2, yOffset);
+            
+            yOffset += H * 0.05;
+            // Achievement Title (Dynamic)
+            ctx.font = `bold ${W * 0.035}px 'Playfair Display', serif`;
+            ctx.fillStyle = '#2c5282';
+            ctx.fillText(data.achievementTitle, W / 2, yOffset);
+            yOffset += H * 0.10; 
+            // Description Line (Wrap Text for neatness)
+            ctx.font = `${W * 0.022}px 'Montserrat', sans-serif`;
+            ctx.fillStyle = '#4a5568';
+            var lineY = yOffset;
+            var maxWidth = W * 0.75;
+            var lineHeight = W * 0.032;
+            var words = data.achievementDescription.split(' ');
+            var currentLine = '';
+            for(var n = 0; n < words.length; n++) {
+                var testLine = currentLine + words[n] + ' ';
+                var metrics = ctx.measureText(testLine);
+                var testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    ctx.fillText(currentLine.trim(), W / 2, lineY);
+                    currentLine = words[n] + ' ';
+                    lineY += lineHeight;
+                } else {
+                    currentLine = testLine;
+                }
+            }
+            ctx.fillText(currentLine.trim(), W / 2, lineY);
+            
+            // Seal is drawn here, centered at H * 0.78
+            drawSchoolSeal();
+
+            // Footer starts at 0.88, which leaves ample space below the seal (0.78)
+            var footerY = H * 0.88; 
+
+            // Date
+            ctx.textAlign = 'left';
+            ctx.font = `${W * 0.018}px 'Montserrat', sans-serif`;
+            ctx.fillStyle = '#4a5568';
+            ctx.fillText(`DATE: ${data.issueDate}`, W * 0.15, footerY);
+            
+            // Issuer Signature Line
+            ctx.textAlign = 'right';
+            var signatureX = W * 0.85;
+            var signatureLineY = footerY - 5;
+            ctx.strokeStyle = '#99aab5';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(signatureX - W * 0.2, signatureLineY);
+            ctx.lineTo(signatureX, signatureLineY);
+            ctx.stroke();
+            // Formal Cursive Signature (Great Vibes)
+            ctx.font = `${W * 0.038}px 'Great Vibes', cursive`; 
+            ctx.fillStyle = '#cc0000';
+            ctx.fillText(data.signatureName, signatureX, signatureLineY - 10);
+            
+            // Issuer Name/Title (Teacher Name)
+            ctx.font = `bold ${W * 0.018}px 'Montserrat', sans-serif`;
+            ctx.fillStyle = '#4a5568';
+            ctx.fillText(data.issuerName, signatureX, footerY + 20);
+            ctx.font = `${W * 0.014}px 'Montserrat', sans-serif`;
+            ctx.fillText("............................................................", signatureX, footerY + 40);
+        }
+        function updateCertificate() {
+            var schoolName = document.getElementById('schoolName').value || "SCHOOL / ORGANIZATION NAME";
+            var studentName = document.getElementById('studentName').value || "STUDENT NAME";
+            var issuerName = document.getElementById('issuerName').value || "Teacher / Issuer Name";
+            var issueDateRaw = document.getElementById('issueDate').value;
+            var selectedType = document.getElementById('certificateType').value;
+            
+            var signatureName = getSignatureName(issuerName);
+            var achievementTitle;
+            var achievementDescription;
+            if (selectedType === 'custom') {
+                achievementTitle = document.getElementById('customAchievement').value || "Custom Achievement Title";
+                achievementDescription = document.getElementById('customDescription').value || "For demonstrating outstanding effort and merit.";
+            } else {
+                const effectiveType = certificateTemplates[selectedType] ? selectedType : 'focus';
+                const template = certificateTemplates[effectiveType];
+                
+                achievementTitle = template.title;
+                achievementDescription = template.description;
+            }
+            var formattedDate;
+            try {
+                formattedDate = issueDateRaw ? new Date(issueDateRaw).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : "Date Placeholder";
+            } catch (e) {
+                formattedDate = "Date Placeholder";
+            }
+            var data = {
+                schoolName: schoolName,
+                studentName: studentName.toUpperCase(),
+                issuerName: issuerName,
+                issueDate: formattedDate,
+                achievementTitle: achievementTitle,
+                achievementDescription: achievementDescription,
+                signatureName: signatureName
+            };
+            drawCertificate(data);
+        }
+        
+        function downloadCertificate() {
+            updateCertificate(); 
+            var studentName = document.getElementById('studentName').value;
+            var filename = `Certificate_of_Recognition_${studentName.replace(/\s/g, '_') || 'Student'}.png`;
+            var imageURL = canvas.toDataURL("image/png");
+            var link = document.createElement('a');
+            link.href = imageURL;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        window.onload = function() {
+            setTimeout(() => {
+                initializeDropdown();
+                handleCertificateChange();
+            }, 300); 
+        };
+        window.addEventListener('resize', updateCertificate);
+    </script>
+</body>
+</html>
