@@ -1,180 +1,363 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BalsamDevelopers | Modern</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Dynamic Link Hub</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind to use a vibrant color palette and a dark theme -->
+    <script>
+        // Configure Tailwind to enable dark mode based on the 'dark' class on the HTML tag
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#4F46E5', // Indigo 600
+                        'secondary-cyan': '#06B6D4', // Cyan 500
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    keyframes: {
+                        'pulse-sm': {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.02)' },
+                        }
+                    },
+                    animation: {
+                        'pulse-sm': 'pulse-sm 1.5s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom style to hide the scrollbar but allow scrolling -->
     <style>
-        /* Modern Base Styling */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa; /* Soft off-white background */
-            color: #212529; /* Darker text for contrast */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 1.5rem;
+        /* Lucide icons (used for the sun/moon toggle) */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            stroke-width: 2;
+            stroke: currentColor;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
-        /* Container to center and limit width */
-        .container {
-            width: 100%;
-            max-width: 960px; /* Slightly wider container */
-            text-align: center;
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-
-        /* Header Styling */
-        header h1 {
-            font-weight: 800;
-            color: #4a5568; /* Muted primary color */
-            margin-bottom: 0.5rem;
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
-        
-        header p {
-            color: #6c757d;
-            font-size: 1.1rem;
-            margin-top: 0;
-        }
-
-        /* Grid layout for the game buttons (2 columns) */
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.25rem; /* Slightly reduced gap */
-            margin-top: 3rem;
-        }
-
-        /* Styling for all game buttons - Neumorphic-Lite Shadows */
-        .game-button {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2.5rem 1.5rem;
-            border-radius: 1.25rem;
-            font-weight: 700; /* Bolder font weight */
-            font-size: 1.2rem;
-            color: white;
-            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
-            
-            /* Modern, soft shadow */
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.08), -5px -5px 15px rgba(255, 255, 255, 0.9);
-            
-            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* Hover effect */
-        .game-button:hover {
-            transform: translateY(-3px); /* Less dramatic lift */
-            /* Slightly more pronounced shadow on hover */
-            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.1), -8px -8px 20px rgba(255, 255, 255, 0.8);
-        }
-
-        /* Modern, Muted Color Palette */
-        .button-1 { background-color: #6b70c5; } /* Muted Indigo */
-        .button-2 { background-color: #ffa552; } /* Soft Orange */
-        .button-3 { background-color: #4CAF50; } /* Classic Green */
-        .button-4 { background-color: #5d9cec; } /* Bright Blue */
-        .button-5 { background-color: #ff6f69; } /* Coral Red */
-        .button-6 { background-color: #a06cd5; } /* Soft Violet */
-        .button-7 { background-color: #4AD9E4; } /* Cyan/Aqua */
-        .button-8 { background-color: #6b70c5; } 
-        .button-9 { background-color: #ffc947; } /* Goldenrod */
-        .button-10 { background-color: #90d3fe; } /* Light Sky Blue */
-        .button-11 { background-color: #ff6f69; } 
-        .button-12 { background-color: #4CAF50; }
-        
-        /* Repeating the modern palette for consistency */
-        .button-13 { background-color: #ffa552; } 
-        .button-14 { background-color: #6b70c5; }
-        .button-15 { background-color: #ff6f69; }
-        .button-16 { background-color: #ffc947; }
-        .button-17 { background-color: #4AD9E4; }
-        .button-18 { background-color: #a06cd5; } 
-        .button-19 { background-color: #5d9cec; }
-        .button-20 { background-color: #4CAF50; }
-        .button-21 { background-color: #ffa552; }
-        .button-22 { background-color: #6b70c5; }
-        .button-23 { background-color: #ff6f69; }
-        .button-24 { background-color: #4AD9E4; }
-        .button-25 { background-color: #ffc947; } 
-        .button-26 { background-color: #a06cd5; }
-        .button-27 { background-color: #6b70c5; } 
-        .button-28 { background-color: #4CAF50; }
-        .button-29 { background-color: #ffa552; }
-        .button-30 { background-color: #ff6f69; }
-        .button-31 { background-color: #5d9cec; } 
-        .button-32 { background-color: #4AD9E4; }
-        .button-33 { background-color: #ffc947; }
-        .button-34 { background-color: #a06cd5; }
-        .button-35 { background-color: #4CAF50; }
-
-        /* Footer styling */        
-        .footer {            
-            margin-top: 4rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #dee2e6; /* Lighter separator */
-            width: 100%;
-            text-align: center;
-            color: #6c757d;
-            font-size: 0.9rem;
-        }    
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>BalsamDevelopers</h1>
-            <p>A World of Learning Adventures, Built by Students</p>
+<!-- Default body classes handle both light and dark backgrounds via JS adding 'dark' class to <html> -->
+<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 min-h-screen font-sans p-4 sm:p-8 no-scrollbar transition-colors duration-500">
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-10 relative">
+            
+            <!-- Theme Toggle Button (Sun/Moon) -->
+            <!-- ADDED: bg-yellow-400, text-gray-900, hover:bg-yellow-500, and shadow-lg for visibility -->
+            <button id="themeToggle" class="absolute top-0 right-0 p-2 text-2xl rounded-full bg-yellow-400 text-gray-900 hover:bg-yellow-500 transition duration-300 shadow-lg">
+                <!-- SVG Icon placeholders handled by JS -->
+            </button>
+
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white mb-2 tracking-tight">
+                Balsam Developers
+            </h1>
+            <p class="text-lg text-primary-blue dark:text-secondary-cyan font-light">
+                A World of Learning Adventures, Built by Students.
+            </p>
         </header>
 
-        <main>
-            <div class="game-grid">
-                <a href="https://balsamdevelopers1.github.io/gkbuddy.html" target="_blank" class="game-button button-1">GK Buddy</a>
-                <a href="https://balsamdevelopers1.github.io/sq/mathrush.html" target="_blank" class="game-button button-2">Math Rush</a>
-                <a href="https://balsamdevelopers1.github.io/sq/wordscramble.html" target="_blank" class="game-button button-3">Word Scramble I</a>
-                <a href="https://balsamdevelopers1.github.io/sq/wordscramble2.html" target="_blank" class="game-button button-4">Word Scramble II</a>
-                <a href="https://balsamdevelopers1.github.io/sq/kural.html" target="_blank" class="game-button button-5">Kural Oviyam</a>
-                <a href="https://balsamdevelopers1.github.io/sq/flag.html" target="_blank" class="game-button button-6">Flag-tastic</a>
-                <a href="https://balsamdevelopers1.github.io/sq/memory.html" target="_blank" class="game-button button-7">Memory Mania</a>
-                <a href="https://balsamdevelopers1.github.io/sq/capitals.html" class="game-button button-8">Capital Quest</a>
-                <a href="https://grammarbuddy.github.io/index1.html" target="_blank" class="game-button button-9">Grammar Buddy</a>
-                <a href="https://grammarbuddy.github.io/readright/" target="_blank" class="game-button button-10">Read Right</a>
-                <a href="https://balsamdevelopers1.github.io/sq/write.html" target="_blank" class="game-button button-11">Write Right</a>
-                <a href="https://balsamdevelopers1.github.io/sq/tonguetwister.html" target="_blank" class="game-button button-12">Tongue Tangler</a>
-                <a href="https://balsamdevelopers1.github.io/sq/riddles.html" target="_blank" class="game-button button-13">Riddle trainer</a>
-                <a href="https://balsamdevelopers1.github.io/sq/skylore.html" target="_blank" class="game-button button-14">SkyLore</a>
-                <a href="https://balsamdevelopers1.github.io/sq/bingo.html" target="_blank" class="game-button button-15">Bingo Blitz</a>
-                <a href="https://balsamdevelopers1.github.io/sq/fire.html" target="_blank" class="game-button button-16">FearLess Fire </a>
-                <a href="https://balsamdevelopers1.github.io/sq/escape.html" target="_blank" class="game-button button-17">Elemental Escape </a>
-                <a href="https://balsamdevelopers1.github.io/sq/dino.html" target="_blank" class="game-button button-18">Ultimate Dino Quiz!</a>
-                <a href="https://balsamdevelopers1.github.io/sq/attic.html" target="_blank" class="game-button button-19">The Attic Lockup</a>
-                <a href="https://balsamdevelopers1.github.io/sq/social.html" target="_blank" class="game-button button-20">Mission Knowledge</a>
-                <a href="https://balsamdevelopers1.github.io/sq/ascent.html" target="_blank" class="game-button button-21">Word Ascent!!!</a>
-                <a href="https://balsamdevelopers1.github.io/sq/chronos.html" target="_blank" class="game-button button-22">Chronos Mission</a>
-                <a href="https://balsamdevelopers1.github.io/sq/timeline.html" target="_blank" class="game-button button-23">Timeline Architect</a>
-                <a href="https://balsamdevelopers1.github.io/sq/maze.html" target="_blank" class="game-button button-24">Multi-Level Math Maze</a>
-                <a href="https://balsamdevelopers1.github.io/sq/mathmazev2.html" target="_blank" class="game-button button-25">CalcQuest </a>
-                <a href="https://balsamdevelopers1.github.io/sq/wordsearch.html" target="_blank" class="game-button button-26">Word Search: IT Fundamentals </a>
-                <a href="https://balsamdevelopers1.github.io/sq/the.html" target="_blank" class="game-button button-27">The Spectrum Solver</a>
-                <a href="https://balsamdevelopers1.github.io/sq/stick1.html" target="_blank" class="game-button button-28">Stickman Duels</a>
-                <a href="https://balsamdevelopers1.github.io/sq/pong.html" target="_blank" class="game-button button-29">Neon Pong Rebound</a>
-                <a href="https://balsamdevelopers1.github.io/sq/food.html" target="_blank" class="game-button button-30">Food Chain Survivor</a>
-                <a href="https://balsamdevelopers1.github.io/sq/solver.html" target="_blank" class="game-button button-31">Arithmetic Blitz</a>
-                <a href="https://balsamdevelopers1.github.io/sq/obby.html" target="_blank" class="game-button button-32">Stickman Obby</a>
+        <!-- Search Input and Counter -->
+        <div class="mb-8 flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+            <input type="text" id="linkSearch" placeholder="Filter links (e.g., 'Math' or 'Language')"
+                    class="w-full sm:max-w-md p-3 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-primary-blue focus:border-secondary-cyan focus:outline-none placeholder-gray-500 dark:placeholder-gray-400 shadow-xl transition duration-300 ease-in-out">
+            
+            <!-- Link Count updated to show current page range -->
+            <div id="linkCount" class="text-primary-blue dark:text-secondary-cyan font-semibold text-sm bg-white dark:bg-gray-800 p-2 rounded-full px-4 shadow-inner transition-colors duration-500">
+                Displaying 1-10 of 40 Links
             </div>
-        </main>
+        </div>
 
-        <footer class="footer">
-            <p>Designed and Developed by Students of G7A</p>
-        </footer>
+        <!-- The Link Grid -->
+        <div id="linksContainer" class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+            <!-- Link buttons will be injected here by JavaScript -->
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="paginationControls" class="flex flex-wrap justify-center items-center mt-8 space-x-2">
+            <!-- Pagination buttons will be injected here by JavaScript -->
+        </div>
     </div>
+
+    <!-- JavaScript for Data and Interactivity -->
+    <script>
+        // Data for 32 new learning/game links extracted from the "BalsamDevelopers" hub.
+        const linkData = [
+            { id: 1, text: "GK Buddy", url: "https://balsamdevelopers1.github.io/gkbuddy.html", category: "Education", icon: "🌍" },
+            { id: 2, text: "Math Rush", url: "https://balsamdevelopers1.github.io/sq/mathrush.html", category: "Math", icon: "🔢" },
+            { id: 3, text: "Word Scramble I", url: "https://balsamdevelopers1.github.io/sq/wordscramble.html", category: "Language", icon: "🔠" },
+            { id: 4, text: "Word Scramble II", url: "https://balsamdevelopers1.github.io/sq/wordscramble2.html", category: "Language", icon: "🔠" },
+            { id: 5, text: "Kural Oviyam", url: "https://balsamdevelopers1.github.io/sq/kural.html", category: "Education", icon: "📜" },
+            { id: 6, text: "Flag-tastic", url: "https://balsamdevelopers1.github.io/sq/flag.html", category: "Geography", icon: "🚩" },
+            { id: 7, text: "Memory Mania", url: "https://balsamdevelopers1.github.io/sq/memory.html", category: "Logic", icon: "✨" },
+            { id: 8, text: "Capital Quest", url: "https://balsamdevelopers1.github.io/sq/capitals.html", category: "Geography", icon: "🏛️" },
+            { id: 9, text: "Grammar Buddy", url: "https://grammarbuddy.github.io/index1.html", category: "Language", icon: "📚" },
+            { id: 10, text: "Read Right", url: "https://grammarbuddy.github.io/readright/", category: "Language", icon: "📖" },
+            { id: 11, text: "Write Right", url: "https://balsamdevelopers1.github.io/sq/write.html", category: "Language", icon: "✍️" },
+            { id: 12, text: "Tongue Tangler", url: "https://balsamdevelopers1.github.io/sq/tonguetwister.html", category: "Language", icon: "👅" },
+            { id: 13, text: "Riddle trainer", url: "https://balsamdevelopers1.github.io/sq/riddles.html", category: "Logic", icon: "❓" },
+            { id: 14, text: "SkyLore", url: "https://balsamdevelopers1.github.io/sq/skylore.html", category: "Science", icon: "🌌" },
+            { id: 15, text: "Bingo Blitz", url: "https://balsamdevelopers1.github.io/sq/bingo.html", category: "Game", icon: "🎲" },
+            { id: 16, text: "FearLess Fire", url: "https://balsamdevelopers1.github.io/sq/fire.html", category: "Science", icon: "🔥" },
+            { id: 17, text: "Elemental Escape", url: "https://balsamdevelopers1.github.io/sq/escape.html", category: "Science", icon: "⚛️" },
+            { id: 18, text: "Ultimate Dino Quiz!", url: "https://balsamdevelopers1.github.io/sq/dino.html", category: "Science", icon: "🌋" },
+            { id: 19, text: "The Attic Lockup", url: "https://balsamdevelopers1.github.io/sq/attic.html", category: "Game", icon: "👻" },
+            { id: 20, text: "Mission Knowledge", url: "https://balsamdevelopers1.github.io/sq/social.html", category: "Social Studies", icon: "🗺️" },
+            { id: 21, text: "Word Ascent!!!", url: "https://balsamdevelopers1.github.io/sq/ascent.html", category: "Language", icon: "⬆️" },
+            { id: 22, text: "Chronos Mission", url: "https://balsamdevelopers1.github.io/sq/chronos.html", category: "History", icon: "⏳" },
+            { id: 23, text: "Timeline Architect", url: "https://balsamdevelopers1.github.io/sq/timeline.html", category: "History", icon: "⏳" },
+            { id: 24, text: "Multi-Level Math Maze", url: "https://balsamdevelopers1.github.io/sq/maze.html", category: "Math", icon: "➕" },
+            { id: 25, text: "CalcQuest", url: "https://balsamdevelopers1.github.io/sq/mathmazev2.html", category: "Math", icon: "➗" },
+            { id: 26, text: "Word Search: IT Fundamentals", url: "https://balsamdevelopers1.github.io/sq/wordsearch.html", category: "Tech", icon: "🔍" },
+            { id: 27, text: "The Spectrum Solver", url: "https://balsamdevelopers1.github.io/sq/the.html", category: "Logic", icon: "💡" },
+            { id: 28, text: "Stickman Duels", url: "https://balsamdevelopers1.github.io/sq/stick1.html", category: "Game", icon: "⚔️" },
+            { id: 29, text: "Neon Pong Rebound", url: "https://balsamdevelopers1.github.io/sq/pong.html", category: "Game", icon: "👾" },
+            { id: 30, text: "Food Chain Survivor", url: "https://balsamdevelopers1.github.io/sq/food.html", category: "Science", icon: "🍔" },
+            { id: 31, text: "Arithmetic Blitz", url: "https://balsamdevelopers1.github.io/sq/solver.html", category: "Math", icon: "✖️" },
+            { id: 32, text: "Stickman Obby", url: "https://balsamdevelopers1.github.io/sq/obby.html", category: "Game", icon: "🏃" },
+            // --- 8 New Dummy Links Added Below ---
+            { id: 33, text: "New App: Strategy Game", url: "#", category: "Game", icon: "⭐" },
+            { id: 34, text: "New App: History Puzzle", url: "#", category: "History", icon: "🏛️" },
+            { id: 35, text: "New App: Language Drill", url: "#", category: "Language", icon: "🗣️" },
+            { id: 36, text: "New App: Science Sim", url: "#", category: "Science", icon: "🔬" },
+            { id: 37, text: "New App: Math Challenge", url: "#", category: "Math", icon: "✖️" },
+            { id: 38, text: "New App: Logic Trainer", url: "#", category: "Logic", icon: "🧠" },
+            { id: 39, text: "New App: Geography Map", url: "#", category: "Geography", icon: "🗺️" },
+            { id: 40, text: "New App: Tech Quiz", url: "#", category: "Tech", icon: "💻" }
+        ];
+
+        const container = document.getElementById('linksContainer');
+        const searchInput = document.getElementById('linkSearch');
+        const linkCountElement = document.getElementById('linkCount');
+        const paginationControls = document.getElementById('paginationControls');
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // --- Theme Toggle SVGs (Lucide) ---
+        // SVGs remain the same, but the surrounding button provides the yellow color
+        const sunIcon = `<svg class="icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2m8-8h2M2 12h2m14.9-5.1l1.5-1.5M4.6 19.4l1.5-1.5m0-11.8l-1.5-1.5M19.4 4.6l-1.5 1.5"/></svg>`;
+        const moonIcon = `<svg class="icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>`;
+
+        // Function to set the theme and save preference
+        const applyTheme = (isDarkMode) => {
+            if (isDarkMode) {
+                htmlElement.classList.add('dark');
+                // Use Moon icon when in Dark Mode
+                themeToggle.innerHTML = moonIcon; 
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                // Use Sun icon when in Light Mode
+                themeToggle.innerHTML = sunIcon;
+                localStorage.setItem('theme', 'light');
+            }
+        };
+
+        // Initialize theme (still defaults to dark mode if no preference is stored)
+        const initializeTheme = () => {
+            const storedTheme = localStorage.getItem('theme');
+            
+            // Default to dark mode (true) as requested.
+            let isDarkMode = true; 
+            
+            if (storedTheme) {
+                // If a preference is stored, override the default and use it.
+                isDarkMode = storedTheme === 'dark';
+            } 
+            
+            applyTheme(isDarkMode);
+        };
+
+        // Toggle handler
+        themeToggle.addEventListener('click', () => {
+            const isDarkMode = htmlElement.classList.contains('dark');
+            applyTheme(!isDarkMode);
+        });
+        
+        // --- End Theme Logic ---
+
+        // Pagination Constants and State
+        const LINKS_PER_PAGE = 10; 
+        let currentPage = 1;
+        let currentFilteredLinks = linkData; // Start with all data
+
+        // Function to create the button HTML element
+        const createLinkElement = (link) => {
+            const colors = ['bg-purple-600', 'bg-emerald-600', 'bg-rose-600', 'bg-blue-600'];
+            const colorClass = colors[link.id % colors.length];
+
+            const html = `
+                <a href="${link.url}" target="_blank"
+                    class="link-button block p-5 rounded-xl shadow-2xl transition duration-300 ease-in-out
+                            transform hover:scale-[1.03] hover:shadow-primary-blue/50
+                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white 
+                            border border-gray-200 dark:border-gray-700 hover:dark:border-secondary-cyan hover:border-primary-blue
+                            relative overflow-hidden group"
+                    data-text="${link.text}"
+                    data-category="${link.category}"
+                    tabindex="0"
+                >
+                    <!-- Floating Highlight Effect -->
+                    <span class="absolute inset-0 bg-primary-blue opacity-0 group-hover:opacity-10 transition duration-300 pointer-events-none"></span>
+
+                    <div class="flex flex-col h-full justify-between">
+                        <!-- Icon and Category Tag -->
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-3xl">${link.icon}</span>
+                            <span class="text-xs font-medium ${colorClass} text-white px-2 py-0.5 rounded-full shadow-md">
+                                ${link.category}
+                            </span>
+                        </div>
+
+                        <!-- Link Text -->
+                        <p class="text-lg font-semibold leading-tight mt-auto">
+                            ${link.text}
+                        </p>
+
+                        <!-- Subtle Underline on Hover -->
+                        <div class="w-0 h-0.5 bg-secondary-cyan mt-2 transition-all duration-300 group-hover:w-full"></div>
+                    </div>
+                </a>
+            `;
+            return html;
+        };
+        
+        // Function to change the current page
+        const changePage = (page) => {
+            const totalPages = Math.ceil(currentFilteredLinks.length / LINKS_PER_PAGE);
+
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderLinks(currentFilteredLinks);
+                // Optional: Scroll to the top of the grid container after changing page to avoid user confusion
+                container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        };
+        window.changePage = changePage; // Make available globally for inline onclick
+
+        // Function to render the pagination controls
+        const renderPagination = (totalLinks, totalPages) => {
+            // Hide controls if there is only one page or no links
+            if (totalPages <= 1 || totalLinks === 0) {
+                paginationControls.innerHTML = '';
+                return;
+            }
+
+            let paginationHtml = '';
+            
+            // 1. Previous Button
+            const prevDisabled = currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary-blue';
+            // Adjusted classes for theme compatibility
+            paginationHtml += `
+                <button onclick="changePage(${currentPage - 1})" 
+                        ${currentPage === 1 ? 'disabled' : ''}
+                        class="px-4 py-2 rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-800 transition duration-200 ${prevDisabled} min-w-[75px] border border-gray-200 dark:border-gray-700">
+                    Previous
+                </button>
+            `;
+
+            // 2. Numbered Buttons (Show max 5 pages centered around current page for clean look)
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+
+            // Adjust start/end to ensure 5 buttons are shown if possible
+            // Note: Since totalPages is max 4 (40 links / 10 per page), this logic works fine.
+            if (currentPage <= 3) {
+                endPage = Math.min(totalPages, 5);
+            } else if (currentPage > totalPages - 2) {
+                startPage = Math.max(1, totalPages - 4);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const activeClass = i === currentPage ? 'bg-secondary-cyan text-gray-900 dark:text-gray-900 font-bold shadow-lg' : 'bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700';
+                 // Adjusted classes for theme compatibility
+                paginationHtml += `
+                    <button onclick="changePage(${i})"
+                            class="px-3 py-2 rounded-lg text-gray-900 dark:text-white ${activeClass} transition duration-200 border border-gray-200 dark:border-gray-700">
+                        ${i}
+                    </button>
+                `;
+            }
+            
+            // 3. Next Button
+            const nextDisabled = currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary-blue';
+             // Adjusted classes for theme compatibility
+            paginationHtml += `
+                <button onclick="changePage(${currentPage + 1})" 
+                        ${currentPage === totalPages ? 'disabled' : ''}
+                        class="px-4 py-2 rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-800 transition duration-200 ${nextDisabled} min-w-[75px] border border-gray-200 dark:border-gray-700">
+                    Next
+                </button>
+            `;
+
+            paginationControls.innerHTML = paginationHtml;
+        };
+
+        // Function to render the links
+        const renderLinks = (data) => {
+            const totalLinks = data.length;
+            const totalPages = Math.ceil(totalLinks / LINKS_PER_PAGE);
+
+            // Calculate start and end indices for the current page
+            const startIndex = (currentPage - 1) * LINKS_PER_PAGE;
+            const endIndex = startIndex + LINKS_PER_PAGE;
+            const linksToDisplay = data.slice(startIndex, endIndex);
+
+            // Render the links
+            container.innerHTML = linksToDisplay.map(createLinkElement).join('');
+            
+            // Update the counter
+            const displayStart = totalLinks === 0 ? 0 : startIndex + 1;
+            const displayEnd = Math.min(endIndex, totalLinks);
+            linkCountElement.textContent = `Displaying ${displayStart}-${displayEnd} of ${totalLinks} Links`;
+
+            // Render pagination controls
+            renderPagination(totalLinks, totalPages);
+        };
+
+        // Function to handle filtering
+        const handleSearch = (event) => {
+            const query = event.target.value.toLowerCase().trim();
+
+            currentFilteredLinks = linkData.filter(link => {
+                const textMatch = link.text.toLowerCase().includes(query);
+                const categoryMatch = link.category.toLowerCase().includes(query);
+                return textMatch || categoryMatch;
+            });
+
+            // Reset to the first page when a new filter is applied
+            currentPage = 1; 
+            renderLinks(currentFilteredLinks);
+        };
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            // Initial render
+            renderLinks(currentFilteredLinks); 
+            searchInput.addEventListener('input', handleSearch);
+        });
+    </script>
 </body>
 </html>
