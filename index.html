@@ -104,18 +104,18 @@
     <script>
         // Data for 32 new learning/game links extracted from the "BalsamDevelopers" hub.
         const linkData = [
-            { id: 1, text: "GK Buddy", url: "https://balsamdevelopers1.github.io/gkbuddy.html", category: "Education", icon: "🌍" },
+            { id: 1, text: "GK Buddy", url: "https://balsamdevelopers1.github.io/gkbuddy.html", category: "GK", icon: "🌍" },
             { id: 2, text: "Math Rush", url: "https://balsamdevelopers1.github.io/sq/mathrush.html", category: "Math", icon: "🔢" },
-            { id: 3, text: "Word Scramble I", url: "https://balsamdevelopers1.github.io/sq/wordscramble.html", category: "Language", icon: "🔠" },
-            { id: 4, text: "Word Scramble II", url: "https://balsamdevelopers1.github.io/sq/wordscramble2.html", category: "Language", icon: "🔠" },
-            { id: 5, text: "Kural Oviyam", url: "https://balsamdevelopers1.github.io/sq/kural.html", category: "Education", icon: "📜" },
+            { id: 3, text: "Word Scramble I", url: "https://balsamdevelopers1.github.io/sq/wordscramble.html", category: "English", icon: "🔠" },
+            { id: 4, text: "Word Scramble II", url: "https://balsamdevelopers1.github.io/sq/wordscramble2.html", category: "English", icon: "🔠" },
+            { id: 5, text: "Kural Oviyam", url: "https://balsamdevelopers1.github.io/sq/kural.html", category: "Tamil", icon: "📜" },
             { id: 6, text: "Flag-tastic", url: "https://balsamdevelopers1.github.io/sq/flag.html", category: "Geography", icon: "🚩" },
             { id: 7, text: "Memory Mania", url: "https://balsamdevelopers1.github.io/sq/memory.html", category: "Logic", icon: "✨" },
             { id: 8, text: "Capital Quest", url: "https://balsamdevelopers1.github.io/sq/capitals.html", category: "Geography", icon: "🏛️" },
-            { id: 9, text: "Grammar Buddy", url: "https://grammarbuddy.github.io/index1.html", category: "Language", icon: "📚" },
-            { id: 10, text: "Read Right", url: "https://grammarbuddy.github.io/readright/", category: "Language", icon: "📖" },
-            { id: 11, text: "Write Right", url: "https://balsamdevelopers1.github.io/sq/write.html", category: "Language", icon: "✍️" },
-            { id: 12, text: "Tongue Tangler", url: "https://balsamdevelopers1.github.io/sq/tonguetwister.html", category: "Language", icon: "👅" },
+            { id: 9, text: "Grammar Buddy", url: "https://grammarbuddy.github.io/index1.html", category: "English", icon: "📚" },
+            { id: 10, text: "Read Right", url: "https://grammarbuddy.github.io/readright/", category: "English", icon: "📖" },
+            { id: 11, text: "Write Right", url: "https://balsamdevelopers1.github.io/sq/write.html", category: "English", icon: "✍️" },
+            { id: 12, text: "Tongue Tangler", url: "https://balsamdevelopers1.github.io/sq/tonguetwister.html", category: "English", icon: "👅" },
             { id: 13, text: "Riddle trainer", url: "https://balsamdevelopers1.github.io/sq/riddles.html", category: "Logic", icon: "❓" },
             { id: 14, text: "SkyLore", url: "https://balsamdevelopers1.github.io/sq/skylore.html", category: "Science", icon: "🌌" },
             { id: 15, text: "Bingo Blitz", url: "https://balsamdevelopers1.github.io/sq/bingo.html", category: "Game", icon: "🎲" },
@@ -123,7 +123,7 @@
             { id: 17, text: "Elemental Escape", url: "https://balsamdevelopers1.github.io/sq/escape.html", category: "Science", icon: "⚛️" },
             { id: 18, text: "Ultimate Dino Quiz!", url: "https://balsamdevelopers1.github.io/sq/dino.html", category: "Science", icon: "🌋" },
             { id: 19, text: "The Attic Lockup", url: "https://balsamdevelopers1.github.io/sq/attic.html", category: "Game", icon: "👻" },
-            { id: 20, text: "Mission Knowledge", url: "https://balsamdevelopers1.github.io/sq/social.html", category: "Social Studies", icon: "🗺️" },
+            { id: 20, text: "Mission Knowledge", url: "https://balsamdevelopers1.github.io/sq/social.html", category: "GK", icon: "🗺️" },
             { id: 21, text: "Word Ascent!!!", url: "https://balsamdevelopers1.github.io/sq/ascent.html", category: "Language", icon: "⬆️" },
             { id: 22, text: "Chronos Mission", url: "https://balsamdevelopers1.github.io/sq/chronos.html", category: "History", icon: "⏳" },
             { id: 23, text: "Timeline Architect", url: "https://balsamdevelopers1.github.io/sq/timeline.html", category: "History", icon: "⏳" },
@@ -137,14 +137,14 @@
             { id: 31, text: "Arithmetic Blitz", url: "https://balsamdevelopers1.github.io/sq/solver.html", category: "Math", icon: "✖️" },
             { id: 32, text: "Stickman Obby", url: "https://balsamdevelopers1.github.io/sq/obby.html", category: "Game", icon: "🏃" },
             // --- 8 New Dummy Links Added Below ---
-            { id: 33, text: "New App: Strategy Game", url: "#", category: "Game", icon: "⭐" },
-            { id: 34, text: "New App: History Puzzle", url: "#", category: "History", icon: "🏛️" },
-            { id: 35, text: "New App: Language Drill", url: "#", category: "Language", icon: "🗣️" },
-            { id: 36, text: "New App: Science Sim", url: "#", category: "Science", icon: "🔬" },
-            { id: 37, text: "New App: Math Challenge", url: "#", category: "Math", icon: "✖️" },
-            { id: 38, text: "New App: Logic Trainer", url: "#", category: "Logic", icon: "🧠" },
-            { id: 39, text: "New App: Geography Map", url: "#", category: "Geography", icon: "🗺️" },
-            { id: 40, text: "New App: Tech Quiz", url: "#", category: "Tech", icon: "💻" }
+            { id: 33, text: "New App: Coming soon", url: "#", category: "Game", icon: "⭐" },
+            { id: 34, text: "New App: Coming soon", url: "#", category: "History", icon: "🏛️" },
+            { id: 35, text: "New App: Coming soon", url: "#", category: "Language", icon: "🗣️" },
+            { id: 36, text: "New App: Coming soon", url: "#", category: "Science", icon: "🔬" },
+            { id: 37, text: "New App: Coming soon", url: "#", category: "Math", icon: "✖️" },
+            { id: 38, text: "New App: Coming soon", url: "#", category: "Logic", icon: "🧠" },
+            { id: 39, text: "New App: Coming soon", url: "#", category: "Geography", icon: "🗺️" },
+            { id: 40, text: "New App: Coming soon", url: "#", category: "Tech", icon: "💻" }
         ];
 
         const container = document.getElementById('linksContainer');
